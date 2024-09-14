@@ -14,7 +14,6 @@ import lombok.*;
 public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Integer codProd;
 
     private String descricao;
@@ -34,5 +33,6 @@ public class Produto {
         this.codBarra = requestProduto.codBarra();
         this.ncm = requestProduto.ncm();
     }
-
+    
 }
+
