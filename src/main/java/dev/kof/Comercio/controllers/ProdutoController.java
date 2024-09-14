@@ -48,11 +48,25 @@ public class ProdutoController {
         if(optionalProduto.isPresent()) {
 
            Produto produto = optionalProduto.get();
-           produto.setDescricao(data.descricao());
-           produto.setPrecoCompra(data.precoCompra());
-           produto.setPrecoVenda(data.precoVenda());
-           produto.setCodBarra(data.codBarra());
-           produto.setNcm(data.ncm());
+           if (data.descricao() != null) {
+               produto.setDescricao(data.descricao());
+           }
+           if (data.precoCompra() != 0) {
+               produto.setPrecoCompra(data.precoCompra());
+           }
+
+           if (data.precoVenda() != 0) {
+               produto.setPrecoVenda(data.precoVenda());
+           }
+
+           if(data.codBarra() != null) {
+               produto.setCodBarra(data.codBarra());
+           }
+
+           if(data.ncm() != null) {
+               produto.setNcm(data.ncm());
+           }
+
            repository.save(produto);
 
            return ResponseEntity.ok(optionalProduto);
