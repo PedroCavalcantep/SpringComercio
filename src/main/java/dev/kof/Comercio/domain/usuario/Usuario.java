@@ -21,5 +21,9 @@ public class Usuario {
 
     private String cargo;
 
-
+    public Usuario (RequestUsuario requestUsuario){
+        this.login = requestUsuario.login();
+        this.senha = requestUsuario.senha();
+        this.cargo = requestUsuario.cargo();
+    }
 }

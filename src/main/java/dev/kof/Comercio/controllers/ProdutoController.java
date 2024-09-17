@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
-
 import java.util.Optional;
 
 @RestController
@@ -19,7 +18,7 @@ public class ProdutoController {
    private ProdutoRepository repository;
 
    @GetMapping
-   public ResponseEntity<?> getAllProdutos() {
+   public ResponseEntity<?> getProdutos() {
        var allProdutos = repository.findAll();
        return ResponseEntity.ok(allProdutos);
    }
@@ -48,14 +47,14 @@ public class ProdutoController {
         if(optionalProduto.isPresent()) {
 
            Produto produto = optionalProduto.get();
-           if (data.descricao() != null) {
+           if(data.descricao() != null) {
                produto.setDescricao(data.descricao());
            }
-           if (data.precoCompra() != 0) {
+           if(data.precoCompra() != 0) {
                produto.setPrecoCompra(data.precoCompra());
            }
 
-           if (data.precoVenda() != 0) {
+           if(data.precoVenda() != 0) {
                produto.setPrecoVenda(data.precoVenda());
            }
 
