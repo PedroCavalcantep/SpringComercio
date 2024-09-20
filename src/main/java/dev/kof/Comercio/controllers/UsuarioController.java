@@ -35,6 +35,16 @@ public class UsuarioController {
             return new ResponseEntity<>("Não encontrado", HttpStatus.NOT_FOUND);
         }
     }
+    @GetMapping("/login")
+    public ResponseEntity<?> findByLogin(@RequestParam String login, @RequestParam String senha) {
+        var usuario = repository.findByLogin(login);
+
+        if(usuario.isPresent() && usuario.get().getSenha().equals(senha)) {
+            return ResponseEntity.ok(usuario);
+        }else {
+            return new ResponseEntity<>("Usuário não encontrado.", HttpStatus.NOT_FOUND);
+        }
+    };
 
     @PostMapping
     public ResponseEntity<?> registerUsuario(@RequestBody @Valid RequestUsuario data) {

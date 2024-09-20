@@ -33,6 +33,16 @@ public class ProdutoController {
                return new ResponseEntity<>("Não encontrado", HttpStatus.NOT_FOUND);
            }
    }
+   @GetMapping("/desc")
+   public ResponseEntity<?> findDescricao (@RequestParam String descricao) {
+       var produto = repository.findByDescricao(descricao);
+
+       if(produto.isPresent()) {
+           return ResponseEntity.ok(produto);
+       }else{
+           return new ResponseEntity<>("Não encontrado", HttpStatus.NOT_FOUND);
+       }
+   }
 
    @PostMapping
    public ResponseEntity<?> registerProduto(@RequestBody @Valid RequestProduto data) {
