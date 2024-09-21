@@ -2,7 +2,7 @@ package dev.kof.Comercio.domain.usuario;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Table(name="usuario")
+@Table(name="usuario", uniqueConstraints = {@UniqueConstraint(columnNames={"login"})})
 @Entity(name="usuario")
 @EqualsAndHashCode(of="codUsuario")
 @Getter
