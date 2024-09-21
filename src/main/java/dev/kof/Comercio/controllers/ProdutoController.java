@@ -1,5 +1,6 @@
 package dev.kof.Comercio.controllers;
 
+import dev.kof.Comercio.GlobalHandlingException.ResourceNotFoundException;
 import dev.kof.Comercio.domain.produto.Produto;
 import dev.kof.Comercio.domain.produto.ProdutoRepository;
 import dev.kof.Comercio.domain.produto.RequestProduto;
@@ -25,23 +26,17 @@ public class ProdutoController {
 
    @GetMapping("/{codProd}")
    public ResponseEntity<?> findProduto(@PathVariable Integer codProd) {
-           var produto = repository.findById(codProd);
+           var produto = repository.findById(codProd)
+                .orElseThrow(() -> new ResourceNotFoundException("'Produto com código:'" + codProd + "' não foi encontrado"));
 
-           if(produto.isPresent()) {
-               return ResponseEntity.ok(produto);
-           }else{
-               return new ResponseEntity<>("Não encontrado", HttpStatus.NOT_FOUND);
-           }
+           return ResponseEntity.ok(produto);
    }
    @GetMapping("/desc")
    public ResponseEntity<?> findDescricao (@RequestParam String descricao) {
-       var produto = repository.findByDescricao(descricao);
+       var produto = repository.findByDescricao(descricao)
+            .orElseThrow(() -> new ResourceNotFoundException("'Produto com descrição:'" + descricao + "' não foi encontrado"));
 
-       if(produto.isPresent()) {
-           return ResponseEntity.ok(produto);
-       }else{
-           return new ResponseEntity<>("Não encontrado", HttpStatus.NOT_FOUND);
-       }
+       return ResponseEntity.ok(produto);
    }
 
    @PostMapping
@@ -86,13 +81,11 @@ public class ProdutoController {
 
     @DeleteMapping("/{codProd}")
     public ResponseEntity<?> deleteProduto(@PathVariable Integer codProd){
-       var produto = repository.findById(codProd);
-        if(produto.isPresent()) {
+       var produto = repository.findById(codProd)
+               .orElseThrow(() -> new ResourceNotFoundException("'Produto com código:'" + codProd + "' não foi encontrado"));
+
             repository.deleteById(codProd);
             return new ResponseEntity<>("Deletado com sucesso.", HttpStatus.OK);
-        }else{
-           return new ResponseEntity<>("Não encontrado.", HttpStatus.NOT_FOUND);
-        }
 
     }
 }

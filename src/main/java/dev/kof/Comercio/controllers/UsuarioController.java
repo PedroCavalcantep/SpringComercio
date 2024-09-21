@@ -1,5 +1,6 @@
 package dev.kof.Comercio.controllers;
 
+import dev.kof.Comercio.GlobalHandlingException.ResourceNotFoundException;
 import dev.kof.Comercio.domain.produto.Produto;
 import dev.kof.Comercio.domain.produto.RequestProduto;
 import dev.kof.Comercio.domain.usuario.RequestUsuario;
@@ -27,22 +28,20 @@ public class UsuarioController {
 
     @GetMapping("/{codUsuario}")
     public ResponseEntity<?> findUsuario(@PathVariable Integer codUsuario) {
-        var usuario = repository.findById(codUsuario);
+        var usuario = repository.findById(codUsuario)
+                .orElseThrow(() -> new ResourceNotFoundException("'Usuario com código:'" + codUsuario + "' não foi encontrado"));
 
-        if(usuario.isPresent()) {
             return ResponseEntity.ok(usuario);
-        }else{
-            return new ResponseEntity<>("Não encontrado", HttpStatus.NOT_FOUND);
-        }
     }
     @GetMapping("/login")
     public ResponseEntity<?> findByLogin(@RequestParam String login, @RequestParam String senha) {
-        var usuario = repository.findByLogin(login);
+        var usuario = repository.findByLogin(login)
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario não encontrado"));
 
-        if(usuario.isPresent() && usuario.get().getSenha().equals(senha)) {
+        if(usuario.getSenha().equals(senha)) {
             return ResponseEntity.ok(usuario);
         }else {
-            return new ResponseEntity<>("Usuário não encontrado.", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Usuário não autorizado.", HttpStatus.UNAUTHORIZED);
         }
     };
 
@@ -80,13 +79,11 @@ public class UsuarioController {
 
     @DeleteMapping("/{codUsuario}")
     public ResponseEntity<?> deleteUsuario(@PathVariable Integer codUsuario) {
-        var usuario = repository.findById(codUsuario);
-        if (usuario.isPresent()) {
+        var usuario = repository.findById(codUsuario)
+                .orElseThrow(() -> new ResourceNotFoundException("'Usuario com código:'" + codUsuario + "' não foi encontrado"));
+
             repository.deleteById(codUsuario);
             return new ResponseEntity<>("Deletado com sucesso.", HttpStatus.OK);
-        }else {
-            return new ResponseEntity<>("Não encontrado.", HttpStatus.NOT_FOUND);
-        }
     }
 
 }
