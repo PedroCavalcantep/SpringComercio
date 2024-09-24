@@ -18,6 +18,8 @@ public class Produto {
 
     private String descricao;
 
+    private int qtd;
+
     private double precoCompra;
 
     private double precoVenda;
@@ -28,6 +30,7 @@ public class Produto {
 
     public Produto(RequestProduto requestProduto) {
         this.descricao = requestProduto.descricao();
+        this.qtd = requestProduto.qtd();
         this.precoCompra = requestProduto.precoCompra();
         this.precoVenda = requestProduto.precoVenda();
         this.codBarra = requestProduto.codBarra();

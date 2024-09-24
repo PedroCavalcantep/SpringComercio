@@ -55,6 +55,11 @@ public class ProdutoController {
            if(data.descricao() != null) {
                produto.setDescricao(data.descricao());
            }
+
+           if(data.qtd() >= 0) {
+               produto.setQtd(data.qtd());
+           }
+
            if(data.precoCompra() != 0) {
                produto.setPrecoCompra(data.precoCompra());
            }
